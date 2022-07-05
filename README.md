@@ -19,11 +19,6 @@ Phaser:
 -   https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
 -   https://photonstorm.github.io/phaser3-docs/
 
-GameSnacks SDK:
-
--   https://docs.google.com/document/d/1JvwpFCcyGy5OztiG_qn_AvCvDgJz9OKSbVDiKJHlIkY/
--   mirror: https://docs.google.com/document/d/15fRbnCP9k6u-3eaC2rLTIsJhGqMoxFL0Ywq17wCiwsA/
-
 ## Code structure
 
 All assets need to be inside the **/src/assets** folder.
