@@ -2,7 +2,6 @@ import "phaser";
 import "phaser/plugins/spine/dist/SpinePlugin";
 import Boot from "./game/scenes/Boot";
 import Example from "./game/scenes/Example";
-import { resize } from "./util/extra";
 import { FPS, HEIGHT, WIDTH } from "./util/globals";
 import * as rexcharactercacheplugin from "./util/rexcharactercacheplugin.min.js";
 
@@ -11,7 +10,8 @@ const config = {
     transparent: true,
     scale: {
         parent: "phaser-game",
-        mode: Phaser.Scale.NONE,
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     width: WIDTH,
     height: HEIGHT,
@@ -32,22 +32,6 @@ const config = {
                 mapping: "spine",
             },
         ],
-    },
-    callbacks: {
-        postBoot: function (game: Phaser.Game) {
-            const onResize = () => {
-                resize(game, {
-                    maxWidth: WIDTH,
-                    maxHeight: HEIGHT,
-                    minWidth: WIDTH * 0.95,
-                    minHeight: HEIGHT * 0.95,
-                });
-            };
-
-            onResize();
-            window.addEventListener("resize", onResize);
-            window.addEventListener("orientationchange", onResize);
-        },
     },
     autoRound: true,
     desynchronized: true,

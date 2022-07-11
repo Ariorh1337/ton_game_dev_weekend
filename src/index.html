@@ -26,16 +26,14 @@
 		<%= htmlWebpackPlugin.options.gameName %>
 	</title>
 	<style>
-		html, body {
+		html,
+		body {
 			height: 100%;
 			margin: 0;
 			overflow: hidden;
 		}
 
 		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			background-color: #9181b4;
 			box-shadow: 0 0 200px rgb(255 0 0 / 0%) inset;
 		}
@@ -58,9 +56,9 @@
 		}
 
 		@font-face {
-            font-family: 'Uni_Sans_Heavy';
-            src: url('assets/fonts/Uni_Sans_Heavy.otf');
-        }
+			font-family: 'Uni_Sans_Heavy';
+			src: url('assets/fonts/Uni_Sans_Heavy.otf');
+		}
 	</style>
 
 	<noscript>Please enable javascript to continue using this application.</noscript>
@@ -71,12 +69,12 @@
 
 <body>
 	<!-- hack to load font -->
-    <div style="font-family:'Uni_Sans_Heavy'; position: absolute; left:-1000px; visibility:hidden;">.</div>
+	<div style="font-family:'Uni_Sans_Heavy'; position: absolute; left:-1000px; visibility:hidden;">.</div>
 
 	<!-- vignette example -->
 	<div id="vignette"></div>
 
-	<div id="phaser-game" style="display: contents;"></div>
+	<div id="phaser-game"></div>
 </body>
 
 </html>
