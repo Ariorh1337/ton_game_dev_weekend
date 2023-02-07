@@ -1,5 +1,5 @@
-import Button from "scripts/util/Button";
-import { CENTER_X, CENTER_Y, dataStorage } from "scripts/util/globals";
+import { HEIGHT_CENTER, WIDTH_CENTER } from "game/globals";
+import Button from "util/Button";
 
 export default class Example extends Phaser.Scene {
     constructor() {
@@ -8,22 +8,28 @@ export default class Example extends Phaser.Scene {
 
     public create() {
         // Create normal image
-        this.add.image(CENTER_X, CENTER_Y, "ui-background-tile");
+        this.add.image(WIDTH_CENTER, HEIGHT_CENTER, "ui-background-tile");
 
         // Create atlas image
-        this.add.image(CENTER_X, 200, `game-atlas`, `font-9.png`);
+        this.add.image(WIDTH_CENTER, 200, `game-atlas`, `font-9.png`);
 
         // Create aseprite animation
         this.add
-            .sprite(CENTER_X, CENTER_Y - 220, "game-poof")
+            .sprite(WIDTH_CENTER, HEIGHT_CENTER - 220, "game-poof")
             .play({ key: "poof", repeat: -1 });
 
         // Create spine animation
-        this.add.spine(CENTER_X, CENTER_Y, "game-coin").play("animation", true);
+        this.add
+            .spine(WIDTH_CENTER, HEIGHT_CENTER, "game-coin")
+            .play("animation", true);
 
         // Create tween animation
         this.tweens.add({
-            targets: this.add.image(CENTER_X, CENTER_Y + 200, "ui-hand"),
+            targets: this.add.image(
+                WIDTH_CENTER,
+                HEIGHT_CENTER + 200,
+                "ui-hand"
+            ),
             y: "+=15",
             duration: 500,
             repeat: -1,
@@ -32,7 +38,7 @@ export default class Example extends Phaser.Scene {
 
         // Create button
         new Button(
-            this.add.image(CENTER_X, CENTER_Y + 290, "ui-warning")
+            this.add.image(WIDTH_CENTER, HEIGHT_CENTER + 290, "ui-warning")
         ).click((btn: Button, elm: Phaser.GameObjects.Image) => {
             if (elm.getData("tint")) {
                 elm.clearTint();
@@ -43,38 +49,24 @@ export default class Example extends Phaser.Scene {
             }
         });
 
-        // Vignette animation
-        const element = document.getElementById("vignette");
-        this.tweens.addCounter({
-            from: 0,
-            to: 1,
-            duration: 2500,
-            repeat: -1,
-            yoyo: true,
-            onUpdate: (tween: Phaser.Tweens.Tween, data: { value: number }) => {
-                (element as any).style.opacity = data.value.toFixed(2);
-            },
-        });
+        this.add.bitmapText(
+            WIDTH_CENTER + 100,
+            HEIGHT_CENTER,
+            "test",
+            "12345890."
+        );
 
         this.create_fps();
     }
 
     private create_fps() {
-        const fpsText = this.add
-            .bitmapText(CENTER_X, CENTER_Y, "Uni_Sans_Heavy_24_green")
-            .setOrigin(0.5);
-        dataStorage.bitmaps["Uni_Sans_Heavy_24_green"].overrideBitmapText(
-            fpsText
-        );
+        const text = this.add.bitmapText(30, 30, "test").setOrigin(0);
 
-        this.events.on("render", function (targetScene: any, duration: any) {
-            if (!fpsText.visible) return;
-            fpsText.setText(
-                `FPS: ${Math.max(
-                    Math.trunc(targetScene.game.loop.actualFps),
-                    30
-                )}`
-            );
-        });
+        const update = () => {
+            text.setText(`FPS: ${Math.trunc(this.game.loop.actualFps)}`);
+            this.time.delayedCall(1000, update);
+        };
+
+        update();
     }
 }

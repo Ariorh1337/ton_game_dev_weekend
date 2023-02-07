@@ -35,29 +35,11 @@
 
 		body {
 			background-color: #9181b4;
-			box-shadow: 0 0 200px rgb(255 0 0 / 0%) inset;
 		}
 
 		canvas {
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
-		}
-
-		/* vignette example */
-		#vignette {
-			pointer-events: none;
-			position: absolute;
-			top: 0;
-			box-shadow: inset #0006ff 0px 0px 20px 15px;
-			width: 100%;
-			height: 100%;
-			opacity: 0;
-			will-change: transform;
-		}
-
-		@font-face {
-			font-family: 'Uni_Sans_Heavy';
-			src: url('assets/fonts/Uni_Sans_Heavy.otf');
 		}
 	</style>
 
@@ -68,12 +50,6 @@
 </head>
 
 <body>
-	<!-- hack to load font -->
-	<div style="font-family:'Uni_Sans_Heavy'; position: absolute; left:-1000px; visibility:hidden;">.</div>
-
-	<!-- vignette example -->
-	<div id="vignette"></div>
-
 	<div id="phaser-game"></div>
 </body>
 

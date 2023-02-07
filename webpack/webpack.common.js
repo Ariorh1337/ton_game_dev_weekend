@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	entry: ["./src/scripts/game.ts"],
+	entry: ["./src/scripts/game/index.ts"],
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		filename: '[name].bundle.js',
@@ -11,7 +11,12 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js'],
-		modules: ["node_modules", "src"]
+		modules: ["node_modules", "src"],
+		alias: {
+			'src': path.resolve(__dirname, '../src'),
+			'game': path.resolve(__dirname, '../src/scripts/game'),
+			'util': path.resolve(__dirname, '../src/scripts/util')
+		}
 	},
 	module: {
 		rules: [
