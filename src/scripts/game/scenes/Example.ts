@@ -1,4 +1,4 @@
-import { HEIGHT_CENTER, WIDTH_CENTER } from "game/globals";
+import { EngineWorker, HEIGHT_CENTER, WIDTH_CENTER } from "game/globals";
 import Button from "util/Button";
 
 export default class Example extends Phaser.Scene {
@@ -49,6 +49,7 @@ export default class Example extends Phaser.Scene {
             }
         });
 
+        // Create bitmap text
         this.add.bitmapText(
             WIDTH_CENTER + 100,
             HEIGHT_CENTER,
@@ -56,6 +57,17 @@ export default class Example extends Phaser.Scene {
             "12345890."
         );
 
+        // Create engine worker
+        const worker = new EngineWorker();
+        worker.onmessage = (event: any) => {
+            console.log("Parent", event);
+        };
+        worker.postMessage({
+            type: "start",
+            data: "Some Test Data",
+        });
+
+        // Create FPS
         this.create_fps();
     }
 

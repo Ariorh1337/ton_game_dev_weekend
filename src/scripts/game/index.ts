@@ -1,10 +1,15 @@
 import "phaser";
 import "phaser/plugins/spine/dist/SpinePlugin";
 
+import { array_at, array_flat } from "util/polyfill";
+
 import Example from "game/scenes/Example";
 import Boot from "./scenes/Boot";
 
 import { FPS, HEIGHT, WIDTH } from "./globals";
+
+array_at();
+array_flat();
 
 const config = {
     type: Phaser.WEBGL,

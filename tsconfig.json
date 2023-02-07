@@ -24,7 +24,7 @@
         "allowSyntheticDefaultImports": true,
         "rootDir": "./",
         "lib": ["dom", "esnext"],
-        "types": ["node", "phaser"],
+        "types": ["phaser"],
         "paths": {
             "src/*": ["../*"]
         }

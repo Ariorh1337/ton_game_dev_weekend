@@ -1,4 +1,7 @@
 import LoadManager from "util/loader";
+import MyWorker from "worker-loader?filename=engine.js!../engine";
+
+export const EngineWorker = MyWorker;
 
 export const FPS = 10;
 
