@@ -1,4 +1,4 @@
-import { HEIGHT_CENTER, loader, WIDTH_CENTER } from "game/globals";
+import { X, Y, loader } from "game/globals";
 import config from "src/configs/assets";
 
 export default class Boot extends Phaser.Scene {
@@ -33,11 +33,11 @@ export default class Boot extends Phaser.Scene {
     }
 
     private createBackground() {
-        this.add.sprite(WIDTH_CENTER, HEIGHT_CENTER, "loading-background");
+        this.add.sprite(X(0.5), Y(0.5), "loading-background");
     }
 
     private createLoaderBar() {
-        const [x, y] = [WIDTH_CENTER, HEIGHT_CENTER - 150];
+        const [x, y] = [X(0.5), Y(0.5) - 150];
 
         this.add.sprite(x, y, "loading-fill-bk");
 

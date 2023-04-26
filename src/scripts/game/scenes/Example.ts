@@ -1,4 +1,4 @@
-import { EngineWorker, HEIGHT_CENTER, WIDTH_CENTER } from "game/globals";
+import { EngineWorker, X, Y, i18n } from "game/globals";
 import Button from "util/Button";
 
 export default class Example extends Phaser.Scene {
@@ -8,28 +8,22 @@ export default class Example extends Phaser.Scene {
 
     public create() {
         // Create normal image
-        this.add.image(WIDTH_CENTER, HEIGHT_CENTER, "ui-background-tile");
+        this.add.image(X(0.5), Y(0.5), "ui-background-tile");
 
         // Create atlas image
-        this.add.image(WIDTH_CENTER, 200, `game-atlas`, `font-9.png`);
+        this.add.image(X(0.5), 200, `game-atlas`, `font-9.png`);
 
         // Create aseprite animation
         this.add
-            .sprite(WIDTH_CENTER, HEIGHT_CENTER - 220, "game-poof")
+            .sprite(X(0.5), Y(0.5) - 220, "game-poof")
             .play({ key: "poof", repeat: -1 });
 
         // Create spine animation
-        this.add
-            .spine(WIDTH_CENTER, HEIGHT_CENTER, "game-coin")
-            .play("animation", true);
+        this.add.spine(X(0.15), Y(0.4), "game-coin").play("animation", true);
 
         // Create tween animation
         this.tweens.add({
-            targets: this.add.image(
-                WIDTH_CENTER,
-                HEIGHT_CENTER + 200,
-                "ui-hand"
-            ),
+            targets: this.add.image(X(0.5), Y(0.5) + 200, "ui-hand"),
             y: "+=15",
             duration: 500,
             repeat: -1,
@@ -37,25 +31,33 @@ export default class Example extends Phaser.Scene {
         });
 
         // Create button
-        new Button(
-            this.add.image(WIDTH_CENTER, HEIGHT_CENTER + 290, "ui-warning")
-        ).click((btn: Button, elm: Phaser.GameObjects.Image) => {
-            if (elm.getData("tint")) {
-                elm.clearTint();
-                elm.setData("tint", 0);
-            } else {
-                elm.setTint(0xff00ff);
-                elm.setData("tint", 1);
-            }
-        });
+        {
+            const frame = this.add.image(X(0.5), Y(0.5) + 290, "ui-warning");
+
+            const button = new Button(frame);
+
+            // Adds a default tints to the button (over, out, down, up)
+            button.defaults(frame);
+
+            button.click((btn: Button, elm: Phaser.GameObjects.Image) => {
+                console.log("Clicked", btn, elm);
+            });
+        }
 
         // Create bitmap text
         this.add.bitmapText(
-            WIDTH_CENTER + 100,
-            HEIGHT_CENTER,
-            "test",
-            "12345890."
+            X(0.5) + 100,
+            Y(0.5),
+            "golden_test_font",
+            i18n("test")
         );
+
+        // Create normal text
+        this.add.text(X(0.5) - 100, Y(0.5), i18n("test"), {
+            fontFamily: "uni-sans-heavy",
+            fontSize: 32,
+            color: "#000000",
+        });
 
         // Create engine worker
         const worker = new EngineWorker();
@@ -72,7 +74,9 @@ export default class Example extends Phaser.Scene {
     }
 
     private create_fps() {
-        const text = this.add.bitmapText(30, 30, "test").setOrigin(0);
+        const text = this.add
+            .bitmapText(30, 30, "golden_test_font")
+            .setOrigin(0);
 
         const update = () => {
             text.setText(`FPS: ${Math.trunc(this.game.loop.actualFps)}`);

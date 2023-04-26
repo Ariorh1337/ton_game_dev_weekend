@@ -44,6 +44,12 @@ export namespace Preload {
         json: string;
     };
 
+    type Svg = {
+        key: string;
+        path: string;
+        config?: Phaser.Types.Loader.FileTypes.SVGSizeConfig;
+    };
+
     type Other = {
         key: string;
         path: string;
@@ -61,6 +67,7 @@ export namespace Preload {
         bitmapFont?: BitmapFont[];
         aseprite?: Aseprite[];
         preload?: File[];
+        svg?: Svg[];
         other?: Other[];
     };
 

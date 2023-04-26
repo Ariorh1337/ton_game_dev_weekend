@@ -37,7 +37,7 @@ export default {
     ],
     bitmapFont: [
         {
-            key: "test",
+            key: "golden_test_font",
             img: "/bitmap/test.png",
             data: "/bitmap/test.xml",
         },

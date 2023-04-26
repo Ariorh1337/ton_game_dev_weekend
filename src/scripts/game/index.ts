@@ -6,7 +6,7 @@ import { array_at, array_flat } from "util/polyfill";
 import Example from "game/scenes/Example";
 import Boot from "./scenes/Boot";
 
-import { FPS, HEIGHT, WIDTH } from "./globals";
+import { FPS, HEIGHT, WIDTH, setLanguage } from "./globals";
 
 array_at();
 array_flat();
@@ -52,6 +52,8 @@ const config = {
     saveDrawingBuffer: true,
 };
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
+    await setLanguage("en-US");
+
     const game = new Phaser.Game(config);
 });

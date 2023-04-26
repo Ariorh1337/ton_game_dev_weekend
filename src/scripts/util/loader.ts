@@ -1,3 +1,4 @@
+import { SCALE } from "game/globals";
 import config from "src/configs/assets";
 import { Preload } from "src/typings/loader";
 
@@ -16,6 +17,13 @@ export default class LoadManager {
 
             file.url = `${LoadManager.path}${path}`;
 
+            if (file.type === "svg") {
+                //@ts-ignore
+                file.svgConfig = {
+                    scale: SCALE,
+                };
+            }
+
             return file;
         });
     }
@@ -33,7 +41,6 @@ export default class LoadManager {
                 case key === "preload":
                     break;
                 case key === "font":
-                    this.fonts(array);
                     break;
                 case key === "image":
                     this.images(key, array);
@@ -51,20 +58,38 @@ export default class LoadManager {
                 case key === "multiatlas":
                     this.multiatlases(key, array);
                     break;
+                case key === "svg":
+                    this.svgs(key, array);
+                    break;
                 default:
                     this.others(key, array);
             }
         }
     }
 
-    private fonts(fonts: Preload.Font[]) {
-        fonts.forEach(async (font) => {
+    public fonts(fonts: Preload.Font[] = config["font"]) {
+        const promises = fonts.map(async (font) => {
             const path = `${LoadManager.path}${font.path}`;
             const fontface = new FontFace(font.key, `url(${path})`);
 
             const loaded = await fontface.load();
             document.fonts.add(loaded);
+
+            return Promise.resolve(font.key);
         });
+
+        return Promise.all(promises);
+    }
+
+    public json(url: string) {
+        try {
+            const promise = fetch(`${LoadManager.path}${url}`);
+            const json = promise.then((response) => response.json());
+
+            return json;
+        } catch (error: any) {
+            return new Error(error);
+        }
     }
 
     private images(key: Preload.Keys, images: Preload.Image[]) {
@@ -95,6 +120,16 @@ export default class LoadManager {
         atlases.forEach((atlas) => {
             this.load.path = `${LoadManager.path}${atlas.path}`;
             this.load[key](atlas.key, atlas.json);
+        });
+    }
+
+    private svgs(key: Preload.Keys, svgs: Preload.Svg[]) {
+        svgs.forEach((svg) => {
+            if (!svg.config) svg.config = {};
+
+            svg.config.scale = SCALE;
+
+            this.load[key](svg.key, svg.path, svg.config);
         });
     }
 
