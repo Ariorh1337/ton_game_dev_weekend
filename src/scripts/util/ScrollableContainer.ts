@@ -1,5 +1,6 @@
 export class ScrollableContainer extends Phaser.GameObjects.Container {
     public visibleArea: Phaser.Geom.Rectangle;
+    public inputRect: Phaser.GameObjects.Rectangle;
 
     constructor(
         scene: Phaser.Scene,
@@ -19,9 +20,13 @@ export class ScrollableContainer extends Phaser.GameObjects.Container {
 
         this.visibleArea = new Phaser.Geom.Rectangle(0, 0, width, height);
 
-        this.setInteractive({ draggable: true });
+        const inputRect = scene.add
+            .rectangle(x, y, width, height, 0x00ff00, 0)
+            .setOrigin(0);
 
-        this.on("wheel", (p, deltaX: number, deltaY: number) => {
+        inputRect.setInteractive({ draggable: true });
+
+        inputRect.on("wheel", (p, deltaX: number, deltaY: number) => {
             const { x, y } = this.visibleArea;
 
             this.setScrollX(x - deltaX);
@@ -29,7 +34,7 @@ export class ScrollableContainer extends Phaser.GameObjects.Container {
         });
 
         let tween;
-        this.on("drag", (pointer: any, dragX: any, dragY: any) => {
+        inputRect.on("drag", (pointer: any, dragX: any, dragY: any) => {
             const { x, y } = this.visibleArea;
 
             const deltaX = dragX - this.x;
@@ -48,6 +53,44 @@ export class ScrollableContainer extends Phaser.GameObjects.Container {
                 onComplete: () => (tween = null),
             });
         });
+    }
+
+    public override getBounds() {
+        const bounds = super.getBounds();
+        const { x, y, width, height } = bounds;
+
+        this.input?.hitArea.setTo(x, y, width, height);
+
+        return bounds;
+    }
+
+    public override setPosition(
+        x?: number | undefined,
+        y?: number | undefined,
+        z?: number | undefined,
+        w?: number | undefined
+    ): this {
+        super.setPosition(x, y, z, w);
+
+        this.inputRect?.setPosition(x, y);
+
+        return this;
+    }
+
+    public override setX(value: number) {
+        super.setX(value);
+
+        this.inputRect?.setX(value);
+
+        return this;
+    }
+
+    public override setY(value: number) {
+        super.setY(value);
+
+        this.inputRect?.setY(value);
+
+        return this;
     }
 
     public setScrollX(value: number) {

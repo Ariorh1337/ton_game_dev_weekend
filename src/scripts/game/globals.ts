@@ -1,6 +1,7 @@
 import Event from "util/Event";
 import { init_dictionary } from "util/i18n";
 import LoadManager from "util/loader";
+import Sound from "util/sound";
 import MyWorker from "worker-loader?filename=engine.js!../engine";
 
 export const EngineWorker = MyWorker;
@@ -17,6 +18,7 @@ export const Y = (rel: number) => HEIGHT * rel;
 
 export const event = new Event();
 export const loader = new LoadManager();
+export const sound = new Sound();
 
 let language: Record<string, string> = {};
 export function i18n(key: string, replacer?: string) {

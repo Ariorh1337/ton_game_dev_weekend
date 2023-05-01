@@ -49,8 +49,7 @@ export default class Button {
         if (callback) {
             this.events.set("click", callback);
         } else {
-            if (!this._enabled) return this;
-            this.events.get("click")?.();
+            this.on_up_template();
         }
 
         return this;
@@ -60,8 +59,7 @@ export default class Button {
         if (callback) {
             this.events.set("over", callback);
         } else {
-            if (!this._enabled) return this;
-            this.events.get("over")?.();
+            this.on_over_template();
         }
 
         return this;
@@ -71,8 +69,7 @@ export default class Button {
         if (callback) {
             this.events.set("out", callback);
         } else {
-            if (!this._enabled) return this;
-            this.events.get("out")?.();
+            this.on_out_template();
         }
 
         return this;
@@ -82,8 +79,7 @@ export default class Button {
         if (callback) {
             this.events.set("down", callback);
         } else {
-            if (!this._enabled) return this;
-            this.events.get("down")?.();
+            this.on_down_template();
         }
 
         return this;
@@ -93,8 +89,7 @@ export default class Button {
         if (callback) {
             this.events.set("up", callback);
         } else {
-            if (!this._enabled) return this;
-            this.events.get("up")?.();
+            this.on_up_template();
         }
 
         return this;

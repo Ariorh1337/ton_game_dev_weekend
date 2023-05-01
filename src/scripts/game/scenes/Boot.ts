@@ -1,4 +1,4 @@
-import { X, Y, loader } from "game/globals";
+import { X, Y, loader, sound } from "game/globals";
 import config from "src/configs/assets";
 
 export default class Boot extends Phaser.Scene {
@@ -20,6 +20,8 @@ export default class Boot extends Phaser.Scene {
 
     public create() {
         this.initAsepriteAnimations();
+
+        sound.init(this.sound);
 
         this.time.delayedCall(50, () => {
             this.scene.start("Example");
