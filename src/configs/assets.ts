@@ -15,6 +15,10 @@ export default {
             img: "/image/ui/coin.png",
         },
         {
+            key: "ui-fire",
+            img: "/image/ui/fire.png",
+        },
+        {
             key: "ui-warning",
             img: "/image/ui/warning.png",
         },

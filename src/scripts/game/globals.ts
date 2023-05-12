@@ -1,7 +1,7 @@
 import Event from "util/Event";
 import { init_dictionary } from "util/i18n";
 import LoadManager from "util/loader";
-import Sound from "util/sound";
+import Sound from "util/Sound";
 import MyWorker from "worker-loader?filename=engine.js!../engine";
 
 export const EngineWorker = MyWorker;

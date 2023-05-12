@@ -1,7 +1,8 @@
-import { EngineWorker, X, Y, i18n } from "game/globals";
+import { EngineWorker, HEIGHT, WIDTH, X, Y, i18n } from "game/globals";
 import Button from "util/Button";
+import List from "util/List";
 import { ScrollableContainer } from "util/ScrollableContainer";
-import { List } from "util/extra";
+import Trail from "util/Trail";
 
 export default class Example extends Phaser.Scene {
     constructor() {
@@ -63,7 +64,11 @@ export default class Example extends Phaser.Scene {
 
         // Create ScrollableContainer
         new ScrollableContainer(this, X(0.5), Y(0.75), 200, 200, [
-            this.add.text(0, 0, new List(100, () => new Array(30).fill("0"))),
+            this.add.text(
+                0,
+                0,
+                new List(100, () => new Array(30).fill("0").join())
+            ),
         ]).higlightInputRect(true);
 
         // Create engine worker
@@ -76,8 +81,67 @@ export default class Example extends Phaser.Scene {
             data: "Some Test Data",
         });
 
+        // Create trail
+        this.createTrail();
+
         // Create FPS
         this.create_fps();
+    }
+
+    private createTrail() {
+        const points = {
+            start: new Phaser.Math.Vector2(99, 1154),
+            control1: new Phaser.Math.Vector2(250, 1170),
+            control2: new Phaser.Math.Vector2(350, 1065),
+            end: new Phaser.Math.Vector2(215, 930),
+        };
+
+        Object.values(points).forEach((point: Phaser.Math.Vector2) => {
+            const circle = this.add
+                .circle(point.x, point.y, 10, Phaser.Math.Between(0, 0xffffff))
+                .setInteractive();
+
+            this.input.setDraggable(circle);
+
+            circle.on(
+                "drag",
+                (_: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+                    circle.x = dragX;
+                    circle.y = dragY;
+                    point.x = dragX;
+                    point.y = dragY;
+                }
+            );
+        });
+
+        const brush = this.add
+            .image(0, 0, "ui-fire")
+            .setAlpha(0.9)
+            .setVisible(false);
+
+        const animation = new Trail(this, brush, WIDTH, HEIGHT);
+
+        new Button(
+            this.add.rectangle(
+                X(0.25),
+                Y(0.9),
+                WIDTH * 0.1,
+                HEIGHT * 0.05,
+                0x000000,
+                0.75
+            )
+        ).click(() => {
+            const curve = new Phaser.Curves.CubicBezier(
+                points.start,
+                points.control1,
+                points.control2,
+                points.end
+            );
+
+            animation.play(500, curve);
+
+            console.log(points);
+        });
     }
 
     private create_fps() {

@@ -1,5 +1,3 @@
-import config from "src/configs/assets";
-
 interface BaseSound extends Phaser.Sound.BaseSound {
     setVolume: (value: number) => void;
 }
@@ -41,10 +39,10 @@ export default class Sound {
      * Initializes the sound object with a sound manager
      * @param manager - The sound manager to use
      */
-    public init(manager: BaseSoundManager): void {
+    public init(manager: BaseSoundManager, audio: { key: string }[]): void {
         this.manager = manager;
 
-        config.audio.forEach((item) => {
+        audio.forEach((item) => {
             const sound = this.manager.add(item.key);
             this.list.set(item.key, sound);
 

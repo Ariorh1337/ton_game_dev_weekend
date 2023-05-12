@@ -1,9 +1,8 @@
 import "phaser";
 import "phaser/plugins/spine/dist/SpinePlugin";
 
-import { array_at, array_flat } from "util/polyfill";
-
 import Example from "game/scenes/Example";
+import { array_at, array_flat } from "util/polyfill";
 import Boot from "./scenes/Boot";
 
 import { FPS, HEIGHT, WIDTH, setLanguage } from "./globals";
