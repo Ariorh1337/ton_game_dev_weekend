@@ -1,5 +1,16 @@
 import config from "src/configs/assets";
 
+interface BaseSound extends Phaser.Sound.BaseSound {
+    setVolume: (value: number) => void;
+}
+
+interface BaseSoundManager extends Phaser.Sound.BaseSoundManager {
+    add: (key: string) => BaseSound;
+}
+
+/**
+ * List of events that can be emitted by a sound object
+ */
 const eventList = [
     "play",
     "complete",
@@ -15,38 +26,52 @@ const eventList = [
     "loop",
 ] as const;
 
+/**
+ * Sound class that manages audio playback
+ */
 export default class Sound {
     private volume = 1;
     private enabled = true;
-    private list = new Map();
+    private list = new Map<string, BaseSound>();
     private event = new Phaser.Events.EventEmitter();
 
-    private manager: Phaser.Sound.BaseSoundManager;
+    private manager: BaseSoundManager;
 
-    constructor() {}
-
-    public init(manager: Phaser.Sound.BaseSoundManager) {
+    /**
+     * Initializes the sound object with a sound manager
+     * @param manager - The sound manager to use
+     */
+    public init(manager: BaseSoundManager): void {
         this.manager = manager;
 
         config.audio.forEach((item) => {
-            this.list.set(item.key, this.manager.add(item.key));
+            const sound = this.manager.add(item.key);
+            this.list.set(item.key, sound);
 
-            const sound = this.list.get(item.key);
-            sound?.setVolume(this.getVolume());
+            sound.setVolume(this.getVolume());
 
             eventList.forEach((event) => {
-                sound?.on(event, (...values) =>
+                sound.on(event, (...values: any[]) =>
                     this.event.emit(`${event}-${item.key}`, values)
                 );
             });
         });
     }
 
-    public play(key, config: any = undefined) {
+    /**
+     * Plays a sound with the given key and configuration
+     * @param key - The key of the sound to play
+     * @param config - The configuration for the sound
+     */
+    public play(key: string, config: any = undefined): void {
         this.list.get(key)?.play("", config);
     }
 
-    public setVolume(value) {
+    /**
+     * Sets the volume of all sounds
+     * @param value - The volume value to set
+     */
+    public setVolume(value: number): void {
         this.volume = value;
 
         const volume = this.getVolume();
@@ -56,17 +81,27 @@ export default class Sound {
         });
     }
 
-    public getVolume() {
+    /**
+     * Gets the current volume of all sounds
+     * @returns The current volume value
+     */
+    public getVolume(): number {
         return this.enabled ? this.volume : 0;
     }
 
-    public pause() {
+    /**
+     * Pauses all sounds
+     */
+    public pause(): void {
         [...this.list.values()].forEach((sound) => {
             sound.pause();
         });
     }
 
-    public resume() {
+    /**
+     * Resumes all sounds
+     */
+    public resume(): void {
         [...this.list.values()].forEach((sound) => {
             sound.resume();
         });

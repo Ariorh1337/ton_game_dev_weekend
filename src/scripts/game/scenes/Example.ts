@@ -1,5 +1,7 @@
 import { EngineWorker, X, Y, i18n } from "game/globals";
 import Button from "util/Button";
+import { ScrollableContainer } from "util/ScrollableContainer";
+import { List } from "util/extra";
 
 export default class Example extends Phaser.Scene {
     constructor() {
@@ -39,7 +41,7 @@ export default class Example extends Phaser.Scene {
             // Adds a default tints to the button (over, out, down, up)
             button.defaults(frame);
 
-            button.click((btn: Button, elm: Phaser.GameObjects.Image) => {
+            button.click((btn, elm) => {
                 console.log("Clicked", btn, elm);
             });
         }
@@ -58,6 +60,11 @@ export default class Example extends Phaser.Scene {
             fontSize: 32,
             color: "#000000",
         });
+
+        // Create ScrollableContainer
+        new ScrollableContainer(this, X(0.5), Y(0.75), 200, 200, [
+            this.add.text(0, 0, new List(100, () => new Array(30).fill("0"))),
+        ]).higlightInputRect(true);
 
         // Create engine worker
         const worker = new EngineWorker();
