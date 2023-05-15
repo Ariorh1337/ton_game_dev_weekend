@@ -17,4 +17,7 @@
     },
     "files.eol": "\r\n",
     "files.autoSave": "onFocusChange",
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
 }
