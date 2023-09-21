@@ -156,6 +156,11 @@ export default class Sound {
 		});
 	}
 
+	/**
+	 * Creates a new sound instance with the specified key and adds it to the list of instances for that key.
+	 * @param {string} key - The key of the sound to create.
+	 * @returns {BaseSound} The newly created sound instance.
+	 */
 	private create(key: string): BaseSound {
 		const sound: any = this.manager.add(key);
 
@@ -175,11 +180,17 @@ export default class Sound {
 		return sound;
 	}
 
-	private destroy(key: string, sound) {
+	/**
+	 * Destroys the specified sound instance and removes it from the list of instances for the specified key.
+	 * @param {string} key - The key of the sound instance to destroy.
+	 * @param {BaseSound} sound - The sound instance to destroy.
+	 */
+	private destroy(key: string, sound: BaseSound) {
 		sound.destroy();
 
 		const instances = this.list.get(key) || [];
 		instances.splice(instances.indexOf(sound), 1);
+
 		this.list.set(key, instances);
 	}
 }

@@ -21,7 +21,7 @@ export default class Boot extends Phaser.Scene {
     public create() {
         this.initAsepriteAnimations();
 
-        sound.init(this.sound, config.audio);
+        sound.init(this.sound as any);
 
         this.time.delayedCall(50, () => {
             this.scene.start("Example");
