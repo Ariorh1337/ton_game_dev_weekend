@@ -39,11 +39,22 @@ export function parse(csv: string) {
     }
 }
 
+let all_langs_dict: Record<string, Record<string, string>>;
+
 export async function init_dictionary(lang: string, path: string) {
     const csv = await fetch(path).then((res) => res.text());
     if (!csv) throw new Error("Could not load dictionary");
 
-    const all_langs_dict = parse(csv);
+    all_langs_dict = parse(csv);
+
+    const prefered_lang_dict = all_langs_dict[lang];
+
+    if (prefered_lang_dict) return prefered_lang_dict;
+
+    return all_langs_dict["en"];
+}
+
+export function update_dictionary(lang: string) {
     const prefered_lang_dict = all_langs_dict[lang];
 
     if (prefered_lang_dict) return prefered_lang_dict;
