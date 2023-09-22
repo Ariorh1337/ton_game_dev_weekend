@@ -27,3 +27,71 @@ export function transition(scene: Phaser.Scene, option: "Out" | "In") {
 
     return delay(scene, duration);
 }
+
+export function makeFastGradient(
+    textElm: Phaser.GameObjects.Text,
+    color1: string,
+    color2: string
+) {
+    const height = textElm.height;
+    const font = Number(String(textElm.style.fontSize).replace("px", ""));
+    const lines = Math.floor(height / font) || 1;
+
+    const gradient = textElm.context.createLinearGradient(
+        0,
+        5,
+        0,
+        textElm.height
+    );
+    new Array(lines).fill("").forEach((item, index) => {
+        gradient.addColorStop(
+            (1 / lines / 100) * 0 + (1 / lines) * index,
+            color1
+        );
+        gradient.addColorStop(
+            (1 / lines / 100) * 30 + (1 / lines) * index,
+            color1
+        );
+        gradient.addColorStop(
+            (1 / lines / 100) * 80 + (1 / lines) * index,
+            color2
+        );
+        gradient.addColorStop(
+            (1 / lines / 100) * 100 + (1 / lines) * index,
+            color2
+        );
+    });
+
+    textElm.setFill(gradient);
+    return gradient;
+}
+
+export function makeGradient(
+    textElm: Phaser.GameObjects.Text,
+    options: Array<{ color: string; percent: number }>
+) {
+    const height = textElm.height;
+    const font = Number(String(textElm.style.fontSize).replace("px", ""));
+    const lines = Math.floor(height / font) || 1;
+
+    if (options.length < 2)
+        return console.error("at least two colors are expected");
+
+    const gradient = textElm.context.createLinearGradient(
+        0,
+        5,
+        0,
+        textElm.height
+    );
+    new Array(lines).fill("").forEach((item, index) => {
+        options.forEach((option) => {
+            gradient.addColorStop(
+                (1 / lines / 100) * option.percent + (1 / lines) * index,
+                option.color
+            );
+        });
+    });
+
+    textElm.setFill(gradient);
+    return gradient;
+}

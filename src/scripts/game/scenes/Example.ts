@@ -2,6 +2,7 @@ import { EngineWorker, HEIGHT, WIDTH, X, Y, i18n } from "game/globals";
 import Button from "util/Button";
 import List from "util/List";
 import { ScrollableContainer } from "util/ScrollableContainer";
+import Text from "util/Text";
 import Trail from "util/Trail";
 
 export default class Example extends Phaser.Scene {
@@ -56,10 +57,28 @@ export default class Example extends Phaser.Scene {
         );
 
         // Create normal text
-        this.add.text(X(0.5) - 100, Y(0.5), i18n("test"), {
+        const text = new Text(this, X(0.5) - 100, Y(0.5), i18n("test"), {
             fontFamily: "uni-sans-heavy",
             fontSize: 32,
             color: "#000000",
+        });
+        text.setScale(1.5);
+        text.setWidthLimit(200);
+
+        this.tweens.addCounter({
+            from: 0,
+            to: 10,
+            duration: 5000,
+            repeat: -1,
+            yoyo: true,
+            onUpdate: (tween) => {
+                text.setText(
+                    i18n("test") +
+                        new Array(Math.floor(tween.getValue()))
+                            .fill("A")
+                            .join("")
+                );
+            },
         });
 
         // Create ScrollableContainer
