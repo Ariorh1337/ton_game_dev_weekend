@@ -8,6 +8,13 @@ export default class GameText extends Phaser.GameObjects.Text {
     private _originalScaleX: number = 1;
     private _originalScaleY: number = 1;
 
+    private _lastFillGradientAngle: number = 0;
+    private _lastFillGradientMultiLine: boolean = true;
+    private _lastFillGradient: {
+        value: number;
+        color: string;
+    }[];
+
     constructor(
         scene: Phaser.Scene,
         x = 0,
@@ -37,6 +44,7 @@ export default class GameText extends Phaser.GameObjects.Text {
 
         if (this._widthLimit) this.updateWidthLimit();
         if (this._heightLimit) this.updateHeightLimit();
+        if (this._lastFillGradient) this.updateFillGradient();
 
         return this;
     }
@@ -163,7 +171,65 @@ export default class GameText extends Phaser.GameObjects.Text {
             gradient.addColorStop(option.value, option.color);
         });
 
-        console.log(result);
+        this._lastFillGradientAngle = angle;
+        this._lastFillGradientMultiLine = multiLine;
+        this._lastFillGradient = result;
+
+        textElm.setFill(gradient);
+
+        return this;
+    }
+
+    private updateFillGradient() {
+        const textElm = this;
+
+        const width = textElm.width;
+        const height = textElm.height;
+
+        const font = Number(String(textElm.style.fontSize).replace("px", ""));
+        const lines = this._lastFillGradientMultiLine
+            ? Math.floor(height / font) || 1
+            : 1;
+
+        const descent = (textElm.style as any).metrics.descent;
+        const ascent = (textElm.style as any).metrics.ascent;
+
+        const rect = new Phaser.Geom.Rectangle(
+            0,
+            descent * lines,
+            width,
+            (ascent - descent) * lines
+        );
+
+        //Rotation part start
+        const sides = Array.from({ length: 4 }, (item, index) => {
+            return Phaser.Geom.Rectangle.PerimeterPoint(
+                rect,
+                this._lastFillGradientAngle + 90 * index
+            );
+        });
+        const line = new Phaser.Geom.Line(
+            Math.min(...sides.map((s) => s.x)),
+            Math.min(...sides.map((s) => s.y)),
+            Math.max(...sides.map((s) => s.x)),
+            Math.max(...sides.map((s) => s.y))
+        );
+        Phaser.Geom.Line.Rotate(
+            line,
+            Phaser.Math.DegToRad(this._lastFillGradientAngle)
+        );
+        //Rotation part end
+
+        const gradient = textElm.context.createLinearGradient(
+            line.x1,
+            line.y1,
+            line.x2,
+            line.y2
+        );
+
+        this._lastFillGradient.forEach((option) => {
+            gradient.addColorStop(option.value, option.color);
+        });
 
         textElm.setFill(gradient);
 
