@@ -62,6 +62,14 @@ export default class Example extends Phaser.Scene {
             fontSize: 32,
             color: "#000000",
         });
+        text.setFillGradient(
+            [
+                { color: "#ff0000", percent: 0 },
+                { color: "#0000ff", percent: 1 },
+            ],
+            false,
+            45
+        );
         text.setScale(1.5);
         text.setWidthLimit(200);
 

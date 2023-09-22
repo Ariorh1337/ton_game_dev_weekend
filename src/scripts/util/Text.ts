@@ -1,5 +1,3 @@
-import { makeFastGradient, makeGradient } from "../util/extra";
-
 export default class GameText extends Phaser.GameObjects.Text {
     public on_state_update?: (data: any) => void;
 
@@ -52,14 +50,124 @@ export default class GameText extends Phaser.GameObjects.Text {
         return this;
     }
 
-    public makeFastGradient(color1: string, color2: string) {
-        makeFastGradient(this, color1, color2);
-        return this;
-    }
+    /**
+     * A function to easily create a gradient with settings like in Photoshop
+     * @param {Phaser.GameObjects.Text} textElm Phaser text element
+     * @param {Array<{ color: string; percent: number }>} options color options such as color and fill percentage
+     * @param {boolean} [multiLine=true] use multiline logic while gradient fill
+     * @param {number} [angle=-90] top to bottom gradient angle by default (-90 photoshop)
+     * @returns {CanvasGradient}
+     */
+    public setFillGradient(
+        options: Array<{ color: string; percent: number }>,
+        multiLine = true,
+        angle = 0
+    ) {
+        const textElm = this;
 
-    public makeGradient(options: Array<{ color: string; percent: number }>) {
-        makeGradient(this, options);
-        return this;
+        if (options.length < 2)
+            throw new Error("at least two colors are expected");
+
+        const width = textElm.width;
+        const height = textElm.height;
+
+        const font = Number(String(textElm.style.fontSize).replace("px", ""));
+        const lines = multiLine ? Math.floor(height / font) || 1 : 1;
+
+        const descent = (textElm.style as any).metrics.descent;
+        const ascent = (textElm.style as any).metrics.ascent;
+
+        const rect = new Phaser.Geom.Rectangle(
+            0,
+            descent * lines,
+            width,
+            (ascent - descent) * lines
+        );
+
+        //Rotation part start
+        angle = angle + 45; //this is to support legacy code
+        const sides = Array.from({ length: 4 }, (item, index) => {
+            return Phaser.Geom.Rectangle.PerimeterPoint(
+                rect,
+                angle + 90 * index
+            );
+        });
+        const line = new Phaser.Geom.Line(
+            Math.min(...sides.map((s) => s.x)),
+            Math.min(...sides.map((s) => s.y)),
+            Math.max(...sides.map((s) => s.x)),
+            Math.max(...sides.map((s) => s.y))
+        );
+        Phaser.Geom.Line.Rotate(line, Phaser.Math.DegToRad(angle));
+        //Rotation part end
+
+        const gradient = textElm.context.createLinearGradient(
+            line.x1,
+            line.y1,
+            line.x2,
+            line.y2
+        );
+
+        const lineHeight = (1 / lines) * 0.95;
+        const lineBreakHeight = 1 / lines - lineHeight;
+
+        const prepareOptions = Array.from({ length: lines }, (item, index) => {
+            const breaker = (value) => {
+                return {
+                    length: lineBreakHeight,
+                    percent: value,
+                    color: "#000",
+                };
+            };
+
+            const result = [] as Array<{
+                color: string;
+                percent: number;
+                length: number;
+            }>[];
+
+            result.push(
+                options.map((option: any) => {
+                    option.length = lineHeight;
+                    return option;
+                })
+            );
+
+            if (index + 1 !== lines) {
+                result.push([breaker(0), breaker(100)]);
+            }
+
+            return result;
+        }).flat();
+
+        const result = [] as Array<{ value: number; color: string }>;
+        let i = 0;
+        prepareOptions.forEach((optionArr) => {
+            i += optionArr.reduce((reducer, option) => {
+                const value = Phaser.Math.FromPercent(
+                    option.percent,
+                    0,
+                    option.length
+                );
+
+                result.push({
+                    value: i + value,
+                    color: option.color,
+                });
+
+                return value;
+            }, 0);
+        });
+
+        result.forEach((option) => {
+            gradient.addColorStop(option.value, option.color);
+        });
+
+        console.log(result);
+
+        textElm.setFill(gradient);
+
+        return gradient;
     }
 
     private updateWidthLimit() {
