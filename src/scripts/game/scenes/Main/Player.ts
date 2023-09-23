@@ -18,11 +18,13 @@ export default class Player {
             friction: 0,
             frictionAir: 0,
             frictionStatic: 0,
+            label: "Player",
         });
         this._right = scene.matter.add.circle(x, y + Y(0.05), this._radius, {
             friction: 0,
             frictionAir: 0,
             frictionStatic: 0,
+            label: "Player",
         });
         this._current = this._right;
 
@@ -41,13 +43,31 @@ export default class Player {
                 const bodies = [this.left, this.right];
                 const walls = Object.values(scene.matter.world.walls);
 
+                if (!bodies.includes(obj1) && !bodies.includes(obj2)) {
+                    return;
+                }
+
                 if (bodies.includes(obj1) && walls.includes(obj2)) {
                     this.onWorldCollide();
+                    return;
                 } else if (bodies.includes(obj2) && walls.includes(obj1)) {
                     this.onWorldCollide();
+                    return;
                 }
+
+                this.onObjectCollide(obj1, obj2);
             }
         );
+
+        //
+
+        this._left.gameObject = scene.add
+            .circle(0, 0, this._radius, 0xa0a0a0, 0.2)
+            .setOrigin(0.5);
+
+        this._right.gameObject = scene.add
+            .circle(0, 0, this._radius, 0xa0a0a0, 0.2)
+            .setOrigin(0.5);
     }
 
     public get left() {
@@ -83,6 +103,15 @@ export default class Player {
         } else {
             this._scene.matter.setVelocityY(current, this._velocity);
         }
+
+        this._left.gameObject.setPosition(
+            this.left.position.x,
+            this.left.position.y
+        );
+        this._right.gameObject.setPosition(
+            this.right.position.x,
+            this.right.position.y
+        );
     }
 
     public reverse() {
@@ -99,4 +128,9 @@ export default class Player {
     }
 
     public onWorldCollide = () => {};
+
+    public onObjectCollide = (
+        obj1: MatterJS.BodyType,
+        obj2: MatterJS.BodyType
+    ) => {};
 }
