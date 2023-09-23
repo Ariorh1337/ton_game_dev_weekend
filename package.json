@@ -12,6 +12,7 @@
     "dependencies": {
         "eslint": "^8.40.0",
         "phaser": "^3.60.0",
+        "phaser3-rex-plugins": "^1.60.5",
         "worker-loader": "^3.0.8"
     },
     "devDependencies": {

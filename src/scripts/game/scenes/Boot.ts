@@ -24,7 +24,7 @@ export default class Boot extends Phaser.Scene {
         sound.init(this.sound as any);
 
         this.time.delayedCall(50, () => {
-            this.scene.start("Example");
+            this.scene.start("Menu");
         });
     }
 
