@@ -39,4 +39,6 @@ export default class Communicator {
                 return room;
             });
     }
+
+    public incrementScore() {}
 }
