@@ -11,6 +11,10 @@ export default class Main extends Phaser.Scene {
         super({ key: "Main" });
     }
 
+    public init(...asd) {
+        console.log(asd);
+    }
+
     public create() {
         this.matter.world.setBounds();
 

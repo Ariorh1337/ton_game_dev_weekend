@@ -1,4 +1,4 @@
-import { X, Y } from "game/globals";
+import { X, Y, comm } from "game/globals";
 import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
 import Button from "util/Button";
 import Text from "util/Text";
@@ -33,13 +33,22 @@ export default class Menu extends Phaser.Scene {
         this.createBtnCreate();
     }
 
-    public playRoom() {
-        // Ask backend for playing game with this.roomInputLabel.text as room id
-    }
+    public playRoom = async () => {
+        let id = this.roomInputLabel.text;
 
-    public createRoom() {
-        // Ask backend to create room
-    }
+        if (id.length > 10) id = "";
+
+        const data = await comm.joinRoom(id);
+
+        this.scene.start("Main", data);
+    };
+
+    public createRoom = async () => {
+        const id = await comm.createRoom();
+
+        this.roomLabel.setText(id);
+        this.roomLabel.setVisible(true);
+    };
 
     private createRoomEnterField() {
         const [x, y] = [X(0.5), Y(0.075)];
@@ -145,12 +154,14 @@ export default class Menu extends Phaser.Scene {
     }
 
     private createRoomLabel() {
-        this.roomLabel = new Text(this, X(0.5), Y(0.875), "TEST TEST", {
+        this.roomLabel = new Text(this, X(0.5), Y(0.875), "", {
             fontFamily: "Arial",
             fontSize: "38px",
             color: "lightgreen",
             align: "center",
         }).setOrigin(0.5);
+
+        this.roomLabel.setVisible(false);
     }
 
     private createBtnCreate() {
