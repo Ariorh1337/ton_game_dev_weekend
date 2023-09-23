@@ -1,4 +1,4 @@
-interface Room {
+export interface Room {
     id: string;
     roundDuration: number; // ms number
     roomDuration: number; // ms number
@@ -7,6 +7,7 @@ interface Room {
 
 export default class Communicator {
     static readonly server = "localhost:8080";
+    static readonly user = "TEST_FOR_NOW"; // TODO add user
 
     constructor() {}
 
@@ -21,6 +22,8 @@ export default class Communicator {
     }
 
     public joinRoom(id: string) {
+        // TODO this is for testing
+        // TODO remove possibility to join if id === ""
         if (id === "") {
             return {
                 id: "TESTTEST",
@@ -40,5 +43,17 @@ export default class Communicator {
             });
     }
 
-    public incrementScore() {}
+    public incrementScore(id: string) {
+        const user = Communicator.user;
+        const server = Communicator.server;
+
+        return fetch(`${server}/join_room`, {
+            method: "POST",
+            body: JSON.stringify({ id, user }),
+        })
+            .then((r) => r.json())
+            .then((room: Room) => {
+                return room;
+            });
+    }
 }
