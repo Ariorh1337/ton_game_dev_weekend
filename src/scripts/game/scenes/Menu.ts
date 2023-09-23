@@ -69,7 +69,7 @@ export default class Menu extends Phaser.Scene {
 
         const content = `Please enter youre room number here`;
         const textElement = new Text(this, 0, 0, content, {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "32px",
             align: "center",
         }).setOrigin(0.5);
@@ -147,7 +147,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const text = new Text(this, 0, 0, "Play", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -175,7 +175,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const infoText = new Text(this, 0, 0, "Round Time Limit: 5m", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -194,7 +194,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const leftText = new Text(this, X(-0.4), 0, "<", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -213,7 +213,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const rightText = new Text(this, X(0.4), 0, ">", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -246,7 +246,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const infoText = new Text(this, 0, 0, "Room Time Limit: 15m", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -265,7 +265,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const leftText = new Text(this, X(-0.4), 0, "<", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -284,7 +284,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const rightText = new Text(this, X(0.4), 0, ">", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);
@@ -302,7 +302,7 @@ export default class Menu extends Phaser.Scene {
 
     private createRoomLabel() {
         const roomLabel = new Text(this, X(0.5), Y(0.85), "", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             color: "lightgreen",
             align: "center",
@@ -331,7 +331,7 @@ export default class Menu extends Phaser.Scene {
         );
 
         const text = new Text(this, 0, 0, "Create Room", {
-            fontFamily: "Arial",
+            fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             align: "center",
         }).setOrigin(0.5);

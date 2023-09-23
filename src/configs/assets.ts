@@ -4,6 +4,10 @@ export default {
             key: "uni-sans-heavy",
             path: "/font/Uni_Sans_Heavy.otf",
         },
+        {
+            key: "younger_love",
+            path: "/font/Younger_Love.otf",
+        },
     ],
     image: [
         {

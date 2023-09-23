@@ -1,6 +1,7 @@
 import { Room } from "game/commucator";
 import { X, Y } from "game/globals";
 import Player from "./Main/Player";
+import WorldBorder from "./Main/WorldBorder";
 
 export default class Main extends Phaser.Scene {
     private room: Room;
@@ -23,8 +24,17 @@ export default class Main extends Phaser.Scene {
     }
 
     public create() {
+        this.add
+            .text(X(0.5), Y(0.8), "0", {
+                fontSize: "64px",
+                fontFamily: "uni-sans-heavy",
+            })
+            .setOrigin(0.5, 0.5);
+
         this.player = new Player(this, X(0.5), Y(0.5));
         this.player.onWorldCollide = () => this.endGame();
+
+        new WorldBorder(this);
     }
 
     public update() {

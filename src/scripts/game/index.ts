@@ -10,7 +10,7 @@ import Boot from "./scenes/Boot";
 import End from "./scenes/End";
 import Menu from "./scenes/Menu";
 
-import { HEIGHT, WIDTH, lang, setLanguage } from "./globals";
+import { HEIGHT, WIDTH, lang, loader, setLanguage } from "./globals";
 
 array_at();
 array_flat();
@@ -126,6 +126,7 @@ const config = {
 
 window.addEventListener("load", async () => {
     await setLanguage(lang);
+    loader.fonts();
 
     const game = new Phaser.Game(config);
 });
