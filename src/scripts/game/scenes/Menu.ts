@@ -5,7 +5,6 @@ import Text from "util/Text";
 
 export default class Menu extends Phaser.Scene {
     private roomInputLabel: Text;
-    private roomLabel: Text;
 
     constructor() {
         super({ key: "Menu" });
@@ -29,6 +28,8 @@ export default class Menu extends Phaser.Scene {
 
         //
 
+        this.createRoundSize();
+        this.createRoomSize();
         this.createRoomLabel();
         this.createBtnCreate();
     }
@@ -46,8 +47,7 @@ export default class Menu extends Phaser.Scene {
     public createRoom = async () => {
         const id = await comm.createRoom();
 
-        this.roomLabel.setText(id);
-        this.roomLabel.setVisible(true);
+        this.events.emit("show_room_id", id);
     };
 
     private createRoomEnterField() {
@@ -124,6 +124,11 @@ export default class Menu extends Phaser.Scene {
                 textElement.setText(text || content);
             });
 
+        textArea.getElement("text").on("pointerdown", () => {
+            textArea.getElement("text").textEdit.node.value = "";
+            setTimeout(() => this.roomInputLabel.setText("..."), 10);
+        });
+
         textArea.alpha = 0.01;
     }
 
@@ -153,15 +158,162 @@ export default class Menu extends Phaser.Scene {
         button.click(this.playRoom);
     }
 
+    private createRoundSize() {
+        const container = this.add.container(X(0.5), Y(0.775));
+
+        //
+
+        const infoBG = new RoundRectangle(
+            this,
+            0,
+            0,
+            X(0.65),
+            75,
+            10,
+            0x303030,
+            1
+        );
+
+        const infoText = new Text(this, 0, 0, "Round Time Limit: 5m", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        const leftBG = new RoundRectangle(
+            this,
+            X(-0.4),
+            0,
+            X(0.1),
+            75,
+            10,
+            0xa0a0a0,
+            1
+        );
+
+        const leftText = new Text(this, X(-0.4), 0, "<", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        const rightBG = new RoundRectangle(
+            this,
+            X(0.4),
+            0,
+            X(0.1),
+            75,
+            10,
+            0xa0a0a0,
+            1
+        );
+
+        const rightText = new Text(this, X(0.4), 0, ">", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        container.add([infoBG, infoText, leftBG, leftText, rightBG, rightText]);
+
+        //
+
+        this.events.on("show_room_id", () => {
+            container.setVisible(false);
+        });
+    }
+
+    private createRoomSize() {
+        const container = this.add.container(X(0.5), Y(0.85));
+
+        //
+
+        const infoBG = new RoundRectangle(
+            this,
+            0,
+            0,
+            X(0.65),
+            75,
+            10,
+            0x303030,
+            1
+        );
+
+        const infoText = new Text(this, 0, 0, "Room Time Limit: 15m", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        const leftBG = new RoundRectangle(
+            this,
+            X(-0.4),
+            0,
+            X(0.1),
+            75,
+            10,
+            0xa0a0a0,
+            1
+        );
+
+        const leftText = new Text(this, X(-0.4), 0, "<", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        const rightBG = new RoundRectangle(
+            this,
+            X(0.4),
+            0,
+            X(0.1),
+            75,
+            10,
+            0xa0a0a0,
+            1
+        );
+
+        const rightText = new Text(this, X(0.4), 0, ">", {
+            fontFamily: "Arial",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        //
+
+        container.add([infoBG, infoText, leftBG, leftText, rightBG, rightText]);
+
+        //
+
+        this.events.on("show_room_id", () => {
+            container.setVisible(false);
+        });
+    }
+
     private createRoomLabel() {
-        this.roomLabel = new Text(this, X(0.5), Y(0.875), "", {
+        const roomLabel = new Text(this, X(0.5), Y(0.85), "", {
             fontFamily: "Arial",
             fontSize: "38px",
             color: "lightgreen",
             align: "center",
         }).setOrigin(0.5);
 
-        this.roomLabel.setVisible(false);
+        roomLabel.setVisible(false);
+
+        this.events.on("show_room_id", (id: string) => {
+            roomLabel.setText(id);
+            roomLabel.setVisible(true);
+        });
     }
 
     private createBtnCreate() {

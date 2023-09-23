@@ -38,9 +38,12 @@ export default class Player {
         scene.matter.world.on(
             Phaser.Physics.Matter.Events.COLLISION_START,
             (data, obj1, obj2) => {
-                if (obj1 === this.left || obj1 === this.right) {
+                const bodies = [this.left, this.right];
+                const walls = Object.values(scene.matter.world.walls);
+
+                if (bodies.includes(obj1) && walls.includes(obj2)) {
                     this.onWorldCollide();
-                } else if (obj2 === this.left || obj2 === this.right) {
+                } else if (bodies.includes(obj2) && walls.includes(obj1)) {
                     this.onWorldCollide();
                 }
             }
