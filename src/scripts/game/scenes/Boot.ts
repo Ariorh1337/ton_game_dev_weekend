@@ -12,6 +12,9 @@ export default class Boot extends Phaser.Scene {
     }
 
     public preload() {
+        // @ts-ignore
+        window.Telegram.WebApp.ready();
+
         this.createBackground();
         this.createLoaderBar();
 
@@ -19,6 +22,9 @@ export default class Boot extends Phaser.Scene {
     }
 
     public create() {
+        // @ts-ignore
+        window.Telegram.WebApp.expand();
+
         this.initAsepriteAnimations();
 
         sound.init(this.sound as any);

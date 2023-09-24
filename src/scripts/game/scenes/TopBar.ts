@@ -11,16 +11,11 @@ export default class TopBar extends Phaser.Scene {
     public create() {
         this.createWalletConnect(X(0.5), Y(0.075));
 
+        this.time.delayedCall(1000, () => this.updateBalance());
+
         this.time.addEvent({
             delay: 10000,
-            callback: async () => {
-                if (wallet.adress) {
-                    const amount = await comm.getBalance(wallet.adress);
-                    const balance = amount / 1000000000;
-
-                    this.balance.setText(`Balance: ${balance} TON`);
-                }
-            },
+            callback: () => this.updateBalance(),
             loop: true,
         });
     }
@@ -61,5 +56,14 @@ export default class TopBar extends Phaser.Scene {
         container.add([playBtnBG, dom, this.balance]);
 
         wallet.init();
+    }
+
+    private async updateBalance() {
+        if (wallet.adress) {
+            const amount = await comm.getBalance(wallet.adress);
+            const balance = amount / 1000000000;
+
+            this.balance.setText(`Balance: ${balance} TON`);
+        }
     }
 }

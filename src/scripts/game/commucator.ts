@@ -25,13 +25,15 @@ export default class Communicator {
         const server = Communicator.server;
         const telegram = Communicator.telegram;
 
+        // TODO add money charge
+
         return fetch(`${server}/api/v2/room`, {
             method: "POST",
             body: JSON.stringify({ wallet: wallet.adress, telegram }),
         })
             .then((r) => r.json())
             .then((room: Room) => {
-                return room.id;
+                return room.shortId;
             });
     }
 
@@ -81,11 +83,11 @@ export default class Communicator {
 
     public async getBalance(wallet: string) {
         return fetch(
-            `https://toncenter.com/api/v2/getWalletInformation?address=${wallet}`
+            `https://toncenter.com/api/v2/getAddressBalance?address=${wallet}`
         )
             .then((r) => r.json())
             .then((responce) => {
-                return responce.result.balance;
+                return responce.result;
             });
     }
 }

@@ -1,4 +1,4 @@
-import { X, Y, comm } from "game/globals";
+import { X, Y, comm, wallet } from "game/globals";
 import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
 import Button from "util/Button";
 import Text from "util/Text";
@@ -39,8 +39,10 @@ export default class Menu extends Phaser.Scene {
 
     public playRoom = async () => {
         let id = this.roomInputLabel.text;
-
         if (id.length > 10) id = "";
+
+        const isCharged = await wallet.moneyCharge("join");
+        if (!isCharged) return;
 
         const data = await comm.joinRoom(id);
 
@@ -48,6 +50,9 @@ export default class Menu extends Phaser.Scene {
     };
 
     public createRoom = async () => {
+        const isCharged = await wallet.moneyCharge("create");
+        if (!isCharged) return;
+
         const id = await comm.createRoom();
 
         this.events.emit("show_room_id", id);
@@ -363,6 +368,6 @@ export default class Menu extends Phaser.Scene {
         container.add([playBtnBG, text]);
 
         const button = new Button(playBtnBG);
-        button.click(this.playRoom);
+        button.click(this.createRoom);
     }
 }
