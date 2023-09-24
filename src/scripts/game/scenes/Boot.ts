@@ -25,6 +25,7 @@ export default class Boot extends Phaser.Scene {
 
         this.time.delayedCall(50, () => {
             this.scene.start("Menu");
+            this.scene.launch("TopBar");
         });
     }
 

@@ -1,4 +1,4 @@
-import { X, Y, comm, wallet } from "game/globals";
+import { X, Y, comm } from "game/globals";
 import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
 import Button from "util/Button";
 import Text from "util/Text";
@@ -22,10 +22,6 @@ export default class Menu extends Phaser.Scene {
             1
         );
         this.add.existing(rect);
-
-        //
-
-        this.createWalletConnect(X(0.5), Y(0.075));
 
         //
 
@@ -55,30 +51,6 @@ export default class Menu extends Phaser.Scene {
 
         this.events.emit("show_room_id", id);
     };
-
-    private createWalletConnect(x: number, y: number) {
-        const container = this.add.container(x, y);
-
-        const playBtnBG = new RoundRectangle(
-            this,
-            0,
-            0,
-            X(0.9),
-            75,
-            10,
-            0x303030,
-            1
-        );
-
-        const div = document.createElement("div");
-        div.setAttribute("id", "wallet");
-
-        const text = this.add.dom(X(-0.43), -20, div);
-
-        container.add([playBtnBG, text]);
-
-        wallet.init();
-    }
 
     private createRoomEnterField(x: number, y: number) {
         const container = this.add.container(x, y);

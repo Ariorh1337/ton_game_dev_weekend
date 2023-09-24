@@ -19,13 +19,13 @@ export default class End extends Phaser.Scene {
     }
 
     public create() {
-        this.createBtnMenu();
         this.createScore();
         this.createEndTime();
+        this.createBtnMenu();
     }
 
     private createBtnMenu() {
-        const container = this.add.container(X(0.5), Y(0.075));
+        const container = this.add.container(X(0.5), Y(0.925));
 
         const rightBG = new RoundRectangle(
             this,

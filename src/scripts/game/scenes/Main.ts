@@ -33,6 +33,8 @@ export default class Main extends Phaser.Scene {
 
         this.matter.world.setBounds();
         this.matter.world.setGravity(0, 0, 0);
+
+        this.scene.get("TopBar").scene.sleep();
     }
 
     public create() {
@@ -122,6 +124,7 @@ export default class Main extends Phaser.Scene {
     }
 
     private endGame() {
+        this.scene.get("TopBar").scene.wake();
         this.scene.start("End", {
             room: this._room,
             score: this._score,

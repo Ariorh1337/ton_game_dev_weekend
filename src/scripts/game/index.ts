@@ -11,6 +11,7 @@ import Main from "game/scenes/Main";
 import Boot from "./scenes/Boot";
 import End from "./scenes/End";
 import Menu from "./scenes/Menu";
+import TopBar from "./scenes/TopBar";
 
 import { HEIGHT, WIDTH, lang, loader, setLanguage } from "./globals";
 
@@ -27,7 +28,7 @@ const config = {
     },
     width: WIDTH,
     height: HEIGHT,
-    scene: [Boot, Menu, Main, End],
+    scene: [Boot, Menu, Main, End, TopBar],
     physics: {
         default: "matter",
         matter: {
