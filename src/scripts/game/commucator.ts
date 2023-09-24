@@ -10,9 +10,15 @@ export interface Room {
 
 export default class Communicator {
     static readonly server = "localhost:4000";
-    static readonly telegram = "TEST_FOR_NOW"; // TODO add user
+    static telegram = window.location.hash.replace("#", "");
 
-    constructor() {}
+    constructor() {
+        // @ts-ignore
+        const search = new URLSearchParams(window.Telegram.WebApp.initData);
+        const user = JSON.parse(search.get("user") || "{}");
+
+        Communicator.telegram = user.id;
+    }
 
     public createRoom() {
         const server = Communicator.server;
