@@ -10,7 +10,7 @@ export interface Room {
 }
 
 export default class Communicator {
-    static readonly server = "https://e021-185-176-136-228.ngrok.io";
+    static readonly server = "https://8b6c-185-176-136-228.ngrok.io";
     static telegram = window.location.hash.replace("#", "");
 
     constructor() {
@@ -33,7 +33,7 @@ export default class Communicator {
         })
             .then((r) => r.json())
             .then((room: Room) => {
-                return room.shortId;
+                return room;
             });
     }
 

@@ -53,9 +53,9 @@ export default class Menu extends Phaser.Scene {
     public createRoom = async () => {
         wallet.moneyCharge("create");
 
-        const id = await comm.createRoom();
+        const room = await comm.createRoom();
 
-        this.events.emit("show_room_id", id);
+        this.events.emit("show_room_id", room.shortId);
     };
 
     private createRoomEnterField(x: number, y: number) {
@@ -330,7 +330,7 @@ export default class Menu extends Phaser.Scene {
     }
 
     private createRoomLabel(x: number, y: number) {
-        const roomLabel = new Text(this, x, y, "", {
+        const roomLabel = new Text(this, x, y, "---***---", {
             fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             color: "lightgreen",
@@ -340,8 +340,8 @@ export default class Menu extends Phaser.Scene {
         roomLabel.setVisible(false);
 
         this.events.on("show_room_id", (id: string) => {
-            roomLabel.setText(id);
             roomLabel.setVisible(true);
+            roomLabel.setText(id);
         });
     }
 

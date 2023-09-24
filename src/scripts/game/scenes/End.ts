@@ -67,7 +67,8 @@ export default class End extends Phaser.Scene {
     }
 
     private createEndTime() {
-        const endTime = this._room.roomStartDate + this._room.roomDuration;
+        const endTime =
+            this._room.roomStartDate * 1000 + this._room.roomDuration;
 
         const str = "Game is ended\n\nPlease check the results after: ";
         const text = new Text(

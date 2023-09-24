@@ -99,7 +99,8 @@ export default class Main extends Phaser.Scene {
     }
 
     private createTimer() {
-        const endTime = this._room.roundStartDate + this._room.roundDuration;
+        const endTime =
+            this._room.roundStartDate * 1000 + this._room.roundDuration;
 
         const text = this.add
             .text(X(0.5), Y(0.2), msToTime(endTime - Date.now()), {
