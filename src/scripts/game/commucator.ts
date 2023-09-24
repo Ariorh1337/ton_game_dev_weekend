@@ -3,6 +3,7 @@ export interface Room {
     roundDuration: number; // ms number
     roomDuration: number; // ms number
     startDate: number; // ms number
+    roundStartDate: number; // ms number
 }
 
 export default class Communicator {
@@ -30,6 +31,7 @@ export default class Communicator {
                 roundDuration: 5 * 60 * 1000, // 5 min
                 roomDuration: 15 * 60 * 1000, // 15 min
                 startDate: Date.now(),
+                roundStartDate: Date.now(),
             };
         }
 
@@ -43,17 +45,17 @@ export default class Communicator {
             });
     }
 
-    public incrementScore(id: string) {
+    public incrementScore(room: Room) {
         const user = Communicator.user;
         const server = Communicator.server;
 
+        if (user === "TEST_FOR_NOW") {
+            return null;
+        }
+
         return fetch(`${server}/join_room`, {
             method: "POST",
-            body: JSON.stringify({ id, user }),
-        })
-            .then((r) => r.json())
-            .then((room: Room) => {
-                return room;
-            });
+            body: JSON.stringify({ id: room.id, user }),
+        });
     }
 }

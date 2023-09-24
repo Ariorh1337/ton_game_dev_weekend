@@ -4,6 +4,7 @@ import Main from "../Main";
 export default class Player {
     private _radius = 32;
     private _velocity = 5;
+    private _immune = false;
 
     private _scene: Main;
 
@@ -55,6 +56,8 @@ export default class Player {
                     return;
                 }
 
+                if (this._immune) return;
+
                 this.onObjectCollide(obj1, obj2);
             }
         );
@@ -62,11 +65,11 @@ export default class Player {
         //
 
         this._left.gameObject = scene.add
-            .circle(0, 0, this._radius, 0xa0a0a0, 0.2)
+            .circle(0, 0, this._radius, 0x505050, 1)
             .setOrigin(0.5);
 
         this._right.gameObject = scene.add
-            .circle(0, 0, this._radius, 0xa0a0a0, 0.2)
+            .circle(0, 0, this._radius, 0x505050, 1)
             .setOrigin(0.5);
     }
 
@@ -133,4 +136,19 @@ export default class Player {
         obj1: MatterJS.BodyType,
         obj2: MatterJS.BodyType
     ) => {};
+
+    public immune() {
+        this._immune = true;
+        this._left.gameObject.setFillStyle(0xa0a0a0, 1);
+        this._right.gameObject.setFillStyle(0xa0a0a0, 1);
+
+        this._scene.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                this._immune = false;
+                this._left.gameObject.setFillStyle(0x505050, 1);
+                this._right.gameObject.setFillStyle(0x505050, 1);
+            },
+        });
+    }
 }

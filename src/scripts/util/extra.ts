@@ -27,3 +27,18 @@ export function transition(scene: Phaser.Scene, option: "Out" | "In") {
 
     return delay(scene, duration);
 }
+
+export function msToTime(ms) {
+    // Calculate the total seconds
+    const totalSeconds = Math.floor(ms / 1000);
+
+    // Calculate minutes and seconds
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // Format the result as "00:00"
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
