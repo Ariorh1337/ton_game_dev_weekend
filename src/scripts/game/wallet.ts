@@ -4,6 +4,8 @@ export default class Wallet {
     static readonly TESTNET = "https://testnet.toncenter.com/api/v2/jsonRPC";
     static readonly MAINNET = "https://toncenter.com/api/v2/jsonRPC";
 
+    public adress: string = "";
+
     private _tonConnectUI: TonConnectUI;
 
     constructor() {}
@@ -11,7 +13,7 @@ export default class Wallet {
     public async init() {
         this._tonConnectUI = new TonConnectUI({
             manifestUrl:
-                "https://e1bd-37-188-174-201.ngrok-free.app/assets/tonconnect-manifest.json",
+                "https://www.ariorh.com/games/dev/ton_shot_ball/tonconnect-manifest.json",
             buttonRootId: "wallet",
         });
 
@@ -21,15 +23,9 @@ export default class Wallet {
                     this.onWalletConnected();
 
                     const tonConnectUI = this._tonConnectUI;
-                    const currentWallet = tonConnectUI.wallet;
                     const currentAccount = tonConnectUI.account;
-                    const currentIsConnectedStatus = tonConnectUI.connected;
 
-                    console.log(
-                        currentWallet,
-                        currentAccount,
-                        currentIsConnectedStatus
-                    );
+                    this.adress = currentAccount?.address || "";
                 }
             }
         );

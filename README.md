@@ -57,10 +57,6 @@ Please make sure that the files you added have different names. This is importan
 
 Most likely you made a mistake with the spine version, all animations must be exported from version 3.8
 
-## PWA
-
-At the moment it is active for playing offline. All PWA configs are in the **pwa** folder.
-
 ## Webpack
 
 All webpack configs are in the **webpack** folder.

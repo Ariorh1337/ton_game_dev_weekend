@@ -1,7 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
-const { InjectManifest } = require('workbox-webpack-plugin');
 
 const prod = {
 	mode: 'production',
@@ -19,12 +18,7 @@ const prod = {
 			}
 		}
 	},
-	plugins: [
-		new InjectManifest({
-			swSrc: path.resolve(__dirname, '../pwa/sw.js'),
-			swDest: 'sw.js'
-		})
-	]
+	plugins: []
 }
 
 module.exports = merge(common, prod)
