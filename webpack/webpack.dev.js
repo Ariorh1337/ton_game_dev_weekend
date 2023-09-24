@@ -6,7 +6,8 @@ const dev = {
 	stats: 'errors-warnings',
 	devtool: 'eval',
 	devServer: {
-		open: false
+		open: false,
+		https: true
 	}
 }
 
