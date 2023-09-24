@@ -41,8 +41,9 @@ export default class Menu extends Phaser.Scene {
         let id = this.roomInputLabel.text;
         if (id.length > 10) id = "";
 
-        const isCharged = await wallet.moneyCharge("join");
-        if (!isCharged) return;
+        if (id !== "") {
+            wallet.moneyCharge("join");
+        }
 
         const data = await comm.joinRoom(id);
 
@@ -50,8 +51,7 @@ export default class Menu extends Phaser.Scene {
     };
 
     public createRoom = async () => {
-        const isCharged = await wallet.moneyCharge("create");
-        if (!isCharged) return;
+        wallet.moneyCharge("create");
 
         const id = await comm.createRoom();
 

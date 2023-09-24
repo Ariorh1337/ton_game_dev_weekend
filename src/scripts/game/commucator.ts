@@ -10,7 +10,7 @@ export interface Room {
 }
 
 export default class Communicator {
-    static readonly server = "localhost:4000";
+    static readonly server = "https://e021-185-176-136-228.ngrok.io";
     static telegram = window.location.hash.replace("#", "");
 
     constructor() {
