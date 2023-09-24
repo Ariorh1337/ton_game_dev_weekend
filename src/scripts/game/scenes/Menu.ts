@@ -1,4 +1,4 @@
-import { X, Y, comm } from "game/globals";
+import { X, Y, comm, wallet } from "game/globals";
 import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
 import Button from "util/Button";
 import Text from "util/Text";
@@ -23,15 +23,21 @@ export default class Menu extends Phaser.Scene {
         );
         this.add.existing(rect);
 
-        this.createRoomEnterField();
-        this.createPlayButton();
+        //
+
+        this.createWalletConnect(X(0.5), Y(0.075));
 
         //
 
-        this.createRoundSize();
-        this.createRoomSize();
-        this.createRoomLabel();
-        this.createBtnCreate();
+        this.createRoomEnterField(X(0.5), Y(0.475));
+        this.createPlayButton(X(0.5), Y(0.55));
+
+        //
+
+        this.createRoundSize(X(0.5), Y(0.775));
+        this.createRoomSize(X(0.5), Y(0.85));
+        this.createRoomLabel(X(0.5), Y(0.85));
+        this.createBtnCreate(X(0.5), Y(0.925));
     }
 
     public playRoom = async () => {
@@ -50,9 +56,31 @@ export default class Menu extends Phaser.Scene {
         this.events.emit("show_room_id", id);
     };
 
-    private createRoomEnterField() {
-        const [x, y] = [X(0.5), Y(0.075)];
+    private createWalletConnect(x: number, y: number) {
+        const container = this.add.container(x, y);
 
+        const playBtnBG = new RoundRectangle(
+            this,
+            0,
+            0,
+            X(0.9),
+            75,
+            10,
+            0x303030,
+            1
+        );
+
+        const div = document.createElement("div");
+        div.setAttribute("id", "wallet");
+
+        const text = this.add.dom(X(-0.43), -20, div);
+
+        container.add([playBtnBG, text]);
+
+        wallet.init();
+    }
+
+    private createRoomEnterField(x: number, y: number) {
         const container = this.add.container(x, y);
 
         const roomInputBG = new RoundRectangle(
@@ -132,8 +160,8 @@ export default class Menu extends Phaser.Scene {
         textArea.alpha = 0.01;
     }
 
-    private createPlayButton() {
-        const container = this.add.container(X(0.5), Y(0.15));
+    private createPlayButton(x: number, y: number) {
+        const container = this.add.container(x, y);
 
         const playBtnBG = new RoundRectangle(
             this,
@@ -158,8 +186,8 @@ export default class Menu extends Phaser.Scene {
         button.click(this.playRoom);
     }
 
-    private createRoundSize() {
-        const container = this.add.container(X(0.5), Y(0.775));
+    private createRoundSize(x: number, y: number) {
+        const container = this.add.container(x, y);
 
         //
 
@@ -229,8 +257,8 @@ export default class Menu extends Phaser.Scene {
         });
     }
 
-    private createRoomSize() {
-        const container = this.add.container(X(0.5), Y(0.85));
+    private createRoomSize(x: number, y: number) {
+        const container = this.add.container(x, y);
 
         //
 
@@ -300,8 +328,8 @@ export default class Menu extends Phaser.Scene {
         });
     }
 
-    private createRoomLabel() {
-        const roomLabel = new Text(this, X(0.5), Y(0.85), "", {
+    private createRoomLabel(x: number, y: number) {
+        const roomLabel = new Text(this, x, y, "", {
             fontFamily: "uni-sans-heavy",
             fontSize: "38px",
             color: "lightgreen",
@@ -316,8 +344,8 @@ export default class Menu extends Phaser.Scene {
         });
     }
 
-    private createBtnCreate() {
-        const container = this.add.container(X(0.5), Y(0.925));
+    private createBtnCreate(x: number, y: number) {
+        const container = this.add.container(x, y);
 
         const playBtnBG = new RoundRectangle(
             this,

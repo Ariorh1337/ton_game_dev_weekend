@@ -1,6 +1,8 @@
 import "phaser";
 import "phaser/plugins/spine/dist/SpinePlugin";
 
+import "buffer";
+
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
 
 import { array_at, array_flat } from "util/polyfill";
@@ -122,6 +124,9 @@ const config = {
     powerPreference: "high-performance",
     premultipliedAlpha: true,
     saveDrawingBuffer: true,
+    dom: {
+        createContainer: true,
+    },
 };
 
 window.addEventListener("load", async () => {

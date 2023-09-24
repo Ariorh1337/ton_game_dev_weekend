@@ -2,6 +2,8 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const ProvidePlugin = require('webpack').ProvidePlugin;
+
 module.exports = {
 	entry: ["./src/scripts/game/index.ts"],
 	output: {
@@ -40,16 +42,12 @@ module.exports = {
 		}
 	},
 	plugins: [
+		new ProvidePlugin({
+			Buffer: ['buffer', 'Buffer'],
+		}),
 		new HtmlWebpackPlugin({
 			gameName: 'Template',
 			template: 'src/index.html',
-			serviceWorker: `<script type="module">
-					if ('serviceWorker' in navigator) {
-						window.addEventListener('load', () => {
-							navigator.serviceWorker.register('./sw.js');
-						});
-					}
-				</script>`,
 		}),
 		new CopyWebpackPlugin({
 			patterns: [

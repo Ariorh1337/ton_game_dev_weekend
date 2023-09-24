@@ -10,9 +10,14 @@
         "node": ">=12"
     },
     "dependencies": {
+        "@tonconnect/ui": "^2.0.0-beta.2",
+        "buffer": "^6.0.3",
         "eslint": "^8.40.0",
         "phaser": "^3.60.0",
         "phaser3-rex-plugins": "^1.60.5",
+        "ton": "^13.6.1",
+        "ton-core": "^0.52.0",
+        "ton-crypto": "^3.2.0",
         "worker-loader": "^3.0.8"
     },
     "devDependencies": {

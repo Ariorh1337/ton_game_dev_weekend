@@ -4,6 +4,7 @@ import LoadManager from "util/loader";
 import Sound from "util/sound";
 import MyWorker from "worker-loader?filename=engine.js!../engine";
 import Communicator from "./commucator";
+import Wallet from "./wallet";
 
 export const EngineWorker = MyWorker;
 
@@ -22,6 +23,8 @@ export const loader = new LoadManager();
 export const sound = new Sound();
 
 export const comm = new Communicator();
+
+export const wallet = new Wallet();
 
 export let lang = "en-US";
 

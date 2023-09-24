@@ -12,6 +12,12 @@ $ npm run local
 $ npm run build
 ```
 
+# How to NGROK
+
+```
+ngrok http 8080 --host-header="localhost:8080"
+```
+
 ## Third Party Documentation
 
 Phaser:
@@ -19,6 +25,9 @@ Phaser:
 -   https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
 -   https://photonstorm.github.io/phaser3-docs/
 
+Ton Connect:
+
+-   https://ton-connect.github.io/sdk/modules/_tonconnect_ui.html
 
 ## Code structure
 
@@ -37,7 +46,6 @@ The structure of this part should be familiar to you, inside you will see the sc
 All resources are stored in the **/src/assets** folder. At build time, the **/src/assets** folder is copied directly to **/dist**.
 The configuration file for the game is located: **/src/configs**
 Top-level property like "image, spine, audio, aseprite" are the type name and are used by the Phaser loader, do not change the names of these property and objects in any case, otherwise the load will break.
-
 
 ### Questions
 
