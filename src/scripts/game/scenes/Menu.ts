@@ -25,8 +25,9 @@ export default class Menu extends Phaser.Scene {
 
         //
 
-        this.createRoomEnterField(X(0.5), Y(0.475));
-        this.createPlayButton(X(0.5), Y(0.55));
+        this.createRoomEnterField(X(0.5), Y(0.45 - 0.075));
+        this.createPlayButton(X(0.5), Y(0.45));
+        this.createReplayButton(X(0.5), Y(0.45 + 0.075));
 
         //
 
@@ -156,6 +157,29 @@ export default class Menu extends Phaser.Scene {
 
         const button = new Button(playBtnBG);
         button.click(this.playRoom);
+    }
+
+    private createReplayButton(x: number, y: number) {
+        const container = this.add.container(x, y);
+
+        const playBtnBG = new RoundRectangle(
+            this,
+            0,
+            0,
+            X(0.9),
+            75,
+            10,
+            0xa0a0a0,
+            1
+        );
+
+        const text = new Text(this, 0, 0, "Check Users Replay", {
+            fontFamily: "uni-sans-heavy",
+            fontSize: "38px",
+            align: "center",
+        }).setOrigin(0.5);
+
+        container.add([playBtnBG, text]);
     }
 
     private createRoundSize(x: number, y: number) {
