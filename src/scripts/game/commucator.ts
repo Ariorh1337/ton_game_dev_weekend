@@ -2,6 +2,7 @@ import { wallet } from "./globals";
 
 export interface Room {
     id: string;
+    shortId: string;
     roundDuration: number; // ms number - 5m
     roomDuration: number; // ms number - 15m
     roundStartDate: number; // ms number
@@ -76,5 +77,15 @@ export default class Communicator {
                 telegram,
             }),
         });
+    }
+
+    public async getBalance(wallet: string) {
+        return fetch(
+            `https://toncenter.com/api/v2/getWalletInformation?address=${wallet}`
+        )
+            .then((r) => r.json())
+            .then((responce) => {
+                return responce.result.balance;
+            });
     }
 }

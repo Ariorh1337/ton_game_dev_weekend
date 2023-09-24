@@ -29,6 +29,10 @@ Ton Connect:
 
 -   https://ton-connect.github.io/sdk/modules/_tonconnect_ui.html
 
+Telegram dApp:
+
+-   https://core.telegram.org/bots/webapps#events-available-for-mini-apps
+
 ## Code structure
 
 All assets need to be inside the **/src/assets** folder.

@@ -26,6 +26,8 @@ export default class Wallet {
                     const currentAccount = tonConnectUI.account;
 
                     this.adress = currentAccount?.address || "";
+
+                    console.log(walletAndwalletInfo);
                 }
             }
         );
